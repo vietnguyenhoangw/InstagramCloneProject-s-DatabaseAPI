@@ -30,7 +30,7 @@ def close_connection(exception):
 @app.route('/newfeeds',methods=["GET"])
 def newfeeds_list():
     db = get_db()
-    data = db.execute('SELECT * FROM newfeeds').fetchall()
+    data = db.execute('SELECT * FROM newfeeds WHERE status = "1" ').fetchall()
     res = []
     for newfeed in data:
         item = {
@@ -47,6 +47,24 @@ def newfeeds_list():
     return jsonify({
         'newfeeds': res
     })
+
+@app.route('/stories',methods=['GET'])
+def stories_list():
+	db = get_db()
+	data = db.execute('SELECT * FROM stories WHERE status = "1"').fetchall()
+	res = []
+	for story in data:
+		item = {
+			'storyID':story[0],
+			'userName':story[1],
+			'userProfileImage':story[2],
+			'storyImage':story[3],
+			'status':story[4]
+		}
+		res.append(item)
+	return jsonify({
+		'stories': res
+	})
 
 @app.route('/', methods=["GET"])
 def hello():
