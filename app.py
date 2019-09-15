@@ -66,6 +66,22 @@ def stories_list():
 		'stories': res
 	})
 
+@app.route('/categories',methods=['GET'])
+def categories_list():
+	db = get_db()
+	data = db.execute('SELECT * FROM categories WHERE status = "1"').fetchall()
+	res = []
+	for story in data:
+		item = {
+			'categoryID':story[0],
+			'categoryName':story[1],
+			'status':story[2]
+		}
+		res.append(item)
+	return jsonify({
+		'categories': res
+	})
+
 @app.route('/', methods=["GET"])
 def hello():
     return "Hello World!"
