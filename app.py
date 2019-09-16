@@ -1,3 +1,4 @@
+# import class
 from flask import Flask
 from flask import Response
 from flask import jsonify
@@ -10,8 +11,8 @@ import os
 
 Image_FOLDER = os.path.join('static', 'image')
 
+# data base name
 DATABASE = 'database/instagram_db'
-
 
 app = Flask(__name__, static_folder="image")
 
@@ -27,6 +28,8 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
+''' GET DATA '''
+# newfeeds table
 @app.route('/newfeeds',methods=["GET"])
 def newfeeds_list():
     db = get_db()
@@ -48,6 +51,7 @@ def newfeeds_list():
         'newfeeds': res
     })
 
+# stories table
 @app.route('/stories',methods=['GET'])
 def stories_list():
 	db = get_db()
@@ -66,6 +70,7 @@ def stories_list():
 		'stories': res
 	})
 
+# categories table
 @app.route('/categories',methods=['GET'])
 def categories_list():
 	db = get_db()
@@ -82,10 +87,13 @@ def categories_list():
 		'categories': res
 	})
 
+# get test text 'hello world'
 @app.route('/', methods=["GET"])
 def hello():
     return "Hello World!"
 
+# main method
+# run at port 5000
 if (__name__ == "__main__"):
 	app.run(host='0.0.0.0',port=5000)
 
