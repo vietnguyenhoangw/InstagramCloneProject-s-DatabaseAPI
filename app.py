@@ -51,6 +51,28 @@ def newfeeds_list():
         'newfeeds': res
     })
 
+# newfeeds table
+@app.route('/userposts',methods=["GET"])
+def userposts_list():
+    db = get_db()
+    data = db.execute('SELECT * FROM newfeeds WHERE status = "2" ').fetchall()
+    res = []
+    for newfeed in data:
+        item = {
+            'userID':newfeed[0],
+            'userName':newfeed[1],
+            'userProfileImage':newfeed[2],
+            'PostImage':str(newfeed[3]),
+            'Like':newfeed[4],
+            'Caption':newfeed[5],
+            'postTime':newfeed[6],
+            'status':newfeed[7]
+        }
+        res.append(item)
+    return jsonify({
+        'newfeeds': res
+    })
+
 # stories table
 @app.route('/stories',methods=['GET'])
 def stories_list():
@@ -86,6 +108,7 @@ def categories_list():
 	return jsonify({
 		'categories': res
 	})
+
 
 # get test text 'hello world'
 @app.route('/', methods=["GET"])
