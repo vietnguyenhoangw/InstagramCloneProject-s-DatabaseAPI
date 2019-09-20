@@ -109,6 +109,23 @@ def categories_list():
 		'categories': res
 	})
 
+# notification
+@app.route('/notification',methods=['GET'])
+def notifications_list():
+	db = get_db()
+	data = db.execute('SELECT username, content, notifications.status from newfeeds inner join notifications on newfeeds.ID = notifications.UserID').fetchall()
+	res = []
+	for notification in data:
+		item = {
+			'UserName':notification[0],
+			'Content':notification[1],
+			'Status':notification[2]
+		}
+		res.append(item)
+	return jsonify({
+		'notifications': res
+	})
+
 
 # get test text 'hello world'
 @app.route('/', methods=["GET"])
